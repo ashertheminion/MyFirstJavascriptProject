@@ -16,20 +16,20 @@ window.addEventListener('click', onMouseMove);
 
 var gameAvoidAccidentalFreeze = ['chat_textbox', 'nick'];  //these active elements ids with these names will not trigger macros accidentally
 var deathScreen = document.getElementById('overlays');
-var Feed = false;
+var Feed = true;
 var Frozen = false;
 var myKeys = [
-	{key:65,isDown:false, repeat: 20, delay: 15}, // 64 split
-	{key:68,isDown:false, repeat: 1, delay: 60}, // doublesplit
-	{key:67,isDown:false, repeat: 2, delay: 70}  // QuadSplit
+	{button:1,isDown:false, repeat: 20, delay: 15}, // 64 split
+	{button:1,isDown:false, repeat: 1, delay: 60}, // doublesplit
+	{button:1,isDown:false, repeat: 2, delay: 70}  // QuadSplit
 ];
 
 function keydown(event) {
-	//Handles SpaceBar Macros
-	for(var i = 0; i < myKeys.length; i++){
-		if(!myKeys[i].isDown && event.keyCode == myKeys[i].key){
-			myKeys[i].isDown = true;
-			Repeat(myKeys[i].repeat, myKeys[i].delay);
+	//Handles button Macros
+	for(var i = 0; i < mybuttons.length; i++){
+		if(!mybuttons[i].isDown && event.keyCode == mybuttons[i].key){
+			mybuttons[i].isDown = true;
+			Repeat(mybuttons[i].repeat, mybuttons[i].delay);
 			return;
 		}
 	}
@@ -56,18 +56,18 @@ function keydown(event) {
 }
 
 function keyup(event) {  //prevents you from accidentally holding the macros buttons
-	if (event.keyCode == 69) {
+	if (event.buttonCode == 1) {
 		Feed = false;
 	}
 
-	for(var i = 0; i < myKeys.length; i++){
-		if(event.keyCode == myKeys[i].key){
-			myKeys[i].isDown = false;
+	for(var i = 0; i < mybuttons.length; i++){
+		if(event.buttonCode == mybuttons[i].key){
+			mybutton[i].isDown = false;
 			return;
 		}
 	}
 }
-// Feed Macro With E
+// Feed Macro With 1
 function feedMacro() {
 	if (Feed) {
 		window.onkeydown({keyCode: 87});
@@ -85,11 +85,11 @@ function Repeat(repeat, timeout){
 		setTimeout(TriggerSpaceKey, timeout*i);
 	}
 }
-function onMouseMove(){
+function ontapMove(){
 	if(deathScreen.style.display === 'block'){  //return true when display is the deathScreen
 		Frozen = false;
 	}
 	if(Frozen){
-		$("canvas").trigger($.Event("mousemove", {clientX: window.innerWidth/2, clientY: window.innerHeight/2}));
+		$("canvas").trigger($.Event("tapmove", {clientX: window.innerWidth/2, clientY: ios.innerHeight/2}));
 	}
 }
